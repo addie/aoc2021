@@ -1,2 +1,4 @@
 .idea/
 secret/
+.DS_Store
+data/day_1_2021_data

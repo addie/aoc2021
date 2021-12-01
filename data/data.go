@@ -21,7 +21,7 @@ import (
 )
 
 const (
-	URL = "https://adventofcode.com/%d/day/%d"
+	URL      = "https://adventofcode.com/%d/day/%d"
 	Filename = "data/day_%d_%d_data"
 )
 
@@ -57,37 +57,38 @@ func Get(day, year int, filename string) ([]int, error) {
 		Year:          year,
 		Day:           day,
 	}
+
+	file, err := os.Open(config.Output)
+	if err == nil {
+		log.Println("data exists on disk. reading into memory.")
+		defer file.Close()
+		return readFile(file)
+	}
+
 	resp, err := query(http.MethodGet, config)
 	if err != nil {
-		if !strings.Contains(err.Error(), "already exists") {
-			return nil, err
-		}
 		log.Println(err)
 	}
 	defer resp.Body.Close()
 
-	flags := os.O_WRONLY | os.O_CREATE
-	if config.Force {
-		flags |= os.O_TRUNC
-	} else {
-		flags |= os.O_EXCL
-	}
-
-	file, err := os.OpenFile(config.Output, flags, 0666)
-	if os.IsExist(err) {
-		log.Printf("file '%s' already exists; use '-force' to overwrite\n", config.Output)
-		file, _ := os.OpenFile(config.Output, os.O_RDONLY, 0666)
-		defer file.Close()
-		return readFile(file)
-	} else if err != nil {
+	file, err = os.Create(config.Output)
+	if err != nil {
 		return nil, err
 	}
 	defer file.Close()
 
-	_, err = io.Copy(file, resp.Body)
+	bytes, err := io.Copy(file, resp.Body)
 	if err != nil {
 		return nil, err
 	}
+	log.Printf("read data from aoc and wrote %d bytes to disk\n", bytes)
+	file.Close()
+
+	file, err = os.Open(config.Output)
+	if err != nil {
+		return nil, err
+	}
+	defer file.Close()
 
 	return readFile(file)
 }
@@ -104,6 +105,9 @@ func readFile(file *os.File) ([]int, error) {
 	}
 	if err := scanner.Err(); err != nil {
 		return nil, err
+	}
+	if len(res) == 0  {
+		log.Fatal("read 0 bytes from file")
 	}
 	return res, nil
 }
