@@ -176,7 +176,7 @@ func buildOxygenNum(currentList []string) int {
 		}
 		keepOnes := oneCount >= len(currentList)-oneCount
 		oneCount = 0
-		currentList = cullOxygenList(i, currentList, keepOnes)
+		currentList = cull(i, currentList, keepOnes, 1)
 		if len(currentList) == 1 {
 			var err error
 			oxygen, err = strconv.ParseInt(currentList[0], 2, 64)
@@ -187,18 +187,6 @@ func buildOxygenNum(currentList []string) int {
 		}
 	}
 	return -1
-}
-
-func cullOxygenList(i int, currentList []string, keepOnes bool) []string {
-	var newList []string
-	for _, binStr := range currentList {
-		if keepOnes && string(binStr[i]) == "1" {
-			newList = append(newList, binStr)
-		} else if !keepOnes && string(binStr[i]) == "0" {
-			newList = append(newList, binStr)
-		}
-	}
-	return newList
 }
 
 func buildCO2Num(currentList []string) int {
@@ -212,7 +200,7 @@ func buildCO2Num(currentList []string) int {
 		}
 		keepZeros := zeroCount <= len(currentList)-zeroCount
 		zeroCount = 0
-		currentList = cullCO2List(i, currentList, keepZeros)
+		currentList = cull(i, currentList, keepZeros, 0)
 		if len(currentList) == 1 {
 			var err error
 			co2, err = strconv.ParseInt(currentList[0], 2, 64)
@@ -225,12 +213,12 @@ func buildCO2Num(currentList []string) int {
 	return -1
 }
 
-func cullCO2List(i int, currentList []string, keepZeros bool) []string {
+func cull(i int, currentList []string, invariant bool, digitToKeep int) []string {
 	var newList []string
 	for _, binStr := range currentList {
-		if keepZeros && string(binStr[i]) == "0" {
+		if invariant && string(binStr[i]) == strconv.Itoa(digitToKeep) {
 			newList = append(newList, binStr)
-		} else if !keepZeros && string(binStr[i]) == "1" {
+		} else if !invariant && string(binStr[i]) == strconv.Itoa(1-digitToKeep) {
 			newList = append(newList, binStr)
 		}
 	}
