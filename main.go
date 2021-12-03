@@ -48,7 +48,7 @@ func main() {
 	day3Solver := day3.Solver{Solver: aoc.Solver{Part: v.part, FilePath: getData(v.day)}}
 	res = day3Solver.Solve()
 	log.Printf("%d.%d Answer: %d\n", v.day, v.part, res)
-	post(v.day, v.part, res)
+	// post(v.day, v.part, res)
 
 	v = version{day: 3, part: 2}
 	day3Solver = day3.Solver{Solver: aoc.Solver{Part: v.part, FilePath: getData(v.day)}}

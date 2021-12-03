@@ -101,6 +101,11 @@ import (
 	"strconv"
 )
 
+const (
+	totalStrings = 1000
+	binLength    = 12
+)
+
 type Solver struct {
 	aoc.Solver
 }
@@ -123,8 +128,6 @@ func (s *Solver) Solve() int {
 }
 
 func part1(data []string) int {
-	const totalStrings = 1000
-	const binLength = 12
 	oneCount := make(map[int]int)
 	initCount(oneCount)
 	for _, dat := range data {
@@ -156,14 +159,88 @@ func part1(data []string) int {
 	return int(gamma) * int(epsilon)
 }
 
+func part2(data []string) int {
+	oxygen := buildOxygenNum(data)
+	co2 := buildCO2Num(data)
+	return oxygen * co2
+}
+
+func buildOxygenNum(currentList []string) int {
+	oneCount := 0
+	var oxygen int64
+	for i := 0; i < binLength; i++ {
+		for _, binStr := range currentList {
+			if string(binStr[i]) == "1" {
+				oneCount += 1
+			}
+		}
+		keepOnes := oneCount >= len(currentList)-oneCount
+		oneCount = 0
+		currentList = cullOxygenList(i, currentList, keepOnes)
+		if len(currentList) == 1 {
+			var err error
+			oxygen, err = strconv.ParseInt(currentList[0], 2, 64)
+			if err != nil {
+				log.Fatal(err)
+			}
+			return int(oxygen)
+		}
+	}
+	return -1
+}
+
+func cullOxygenList(i int, currentList []string, keepOnes bool) []string {
+	var newList []string
+	for _, binStr := range currentList {
+		if keepOnes && string(binStr[i]) == "1" {
+			newList = append(newList, binStr)
+		} else if !keepOnes && string(binStr[i]) == "0" {
+			newList = append(newList, binStr)
+		}
+	}
+	return newList
+}
+
+func buildCO2Num(currentList []string) int {
+	zeroCount := 0
+	var co2 int64
+	for i := 0; i < binLength; i++ {
+		for _, binStr := range currentList {
+			if string(binStr[i]) == "0" {
+				zeroCount += 1
+			}
+		}
+		keepZeros := zeroCount <= len(currentList)-zeroCount
+		zeroCount = 0
+		currentList = cullCO2List(i, currentList, keepZeros)
+		if len(currentList) == 1 {
+			var err error
+			co2, err = strconv.ParseInt(currentList[0], 2, 64)
+			if err != nil {
+				log.Fatal(err)
+			}
+			return int(co2)
+		}
+	}
+	return -1
+}
+
+func cullCO2List(i int, currentList []string, keepZeros bool) []string {
+	var newList []string
+	for _, binStr := range currentList {
+		if keepZeros && string(binStr[i]) == "0" {
+			newList = append(newList, binStr)
+		} else if !keepZeros && string(binStr[i]) == "1" {
+			newList = append(newList, binStr)
+		}
+	}
+	return newList
+}
+
 func initCount(count map[int]int) {
 	for i := 1; i < 13; i++ {
 		count[i] = 0
 	}
-}
-
-func part2(data []string) int {
-	return 0
 }
 
 func parseFile(filePath string) ([]string, error) {
