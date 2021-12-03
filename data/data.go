@@ -9,39 +9,39 @@ package data
 
 import (
 	"aoc2021/secret"
-	"bufio"
 	"errors"
 	"fmt"
 	"io"
 	"log"
 	"net/http"
+	"net/url"
 	"os"
 	"strconv"
 	"strings"
 )
 
 const (
+	Year     = 2021
 	URL      = "https://adventofcode.com/%d/day/%d"
 	Filename = "data/day_%d_%d_data"
 )
 
 type Configuration struct {
-	SessionCookie string `json:"session-cookie"`
-	Output        string `json:"output"`
-	Payload       string `json:"data"`
-	Year          int    `json:"year"`
-	Day           int    `json:"day"`
-	Force         bool   `json:"-"`
-	Wait          bool   `json:"-"`
+	SessionCookie string
+	Output        string
+	Year          int
+	Day           int
+	Level         int
+	Answer        int
 }
 
-func Post(day, year, level, result int) error {
-	payload := fmt.Sprintf(`{"level": %d, "answer": %d}`, level, result)
+func Post(day, level, result int) error {
 	config := &Configuration{
 		SessionCookie: secret.SessionID,
-		Year:          year,
+		Year:          Year,
 		Day:           day,
-		Payload:       payload,
+		Level:         level,
+		Answer:        result,
 	}
 	_, err := query(http.MethodPost, config)
 	if err != nil {
@@ -50,19 +50,18 @@ func Post(day, year, level, result int) error {
 	return nil
 }
 
-func Get(day, year int, filename string) ([]int, error) {
+func Get(day int, filename string) error {
 	config := &Configuration{
 		SessionCookie: secret.SessionID,
 		Output:        filename,
-		Year:          year,
+		Year:          Year,
 		Day:           day,
 	}
 
 	file, err := os.Open(config.Output)
 	if err == nil {
-		log.Println("data exists on disk. reading into memory.")
-		defer file.Close()
-		return readFile(file)
+		file.Close()
+		return nil
 	}
 
 	resp, err := query(http.MethodGet, config)
@@ -73,43 +72,16 @@ func Get(day, year int, filename string) ([]int, error) {
 
 	file, err = os.Create(config.Output)
 	if err != nil {
-		return nil, err
+		return err
 	}
 	defer file.Close()
 
 	bytes, err := io.Copy(file, resp.Body)
 	if err != nil {
-		return nil, err
+		return err
 	}
 	log.Printf("read data from aoc and wrote %d bytes to disk\n", bytes)
-	file.Close()
-
-	file, err = os.Open(config.Output)
-	if err != nil {
-		return nil, err
-	}
-	defer file.Close()
-
-	return readFile(file)
-}
-
-func readFile(file *os.File) ([]int, error) {
-	var res []int
-	scanner := bufio.NewScanner(file)
-	for scanner.Scan() {
-		digit, err := strconv.Atoi(scanner.Text())
-		if err != nil {
-			return nil, err
-		}
-		res = append(res, digit)
-	}
-	if err := scanner.Err(); err != nil {
-		return nil, err
-	}
-	if len(res) == 0  {
-		log.Fatal("read 0 bytes from file")
-	}
-	return res, nil
+	return nil
 }
 
 func query(method string, config *Configuration) (*http.Response, error) {
@@ -119,7 +91,10 @@ func query(method string, config *Configuration) (*http.Response, error) {
 	var body io.Reader
 	if method == http.MethodPost {
 		path = "/answer"
-		body = strings.NewReader(config.Payload)
+		form := url.Values{}
+		form.Add("level", strconv.Itoa(config.Level))
+		form.Add("answer", strconv.Itoa(config.Answer))
+		body = strings.NewReader(form.Encode())
 	}
 
 	req, err := http.NewRequest(method, fmt.Sprintf(URL+path, config.Year, config.Day), body)
@@ -127,9 +102,10 @@ func query(method string, config *Configuration) (*http.Response, error) {
 		return nil, err
 	}
 
-	cookie := new(http.Cookie)
-	cookie.Name, cookie.Value = "session", config.SessionCookie
-	req.AddCookie(cookie)
+	req.AddCookie(&http.Cookie{
+		Name:  "session",
+		Value: config.SessionCookie,
+	})
 
 	resp, err := client.Do(req)
 	if err != nil {
