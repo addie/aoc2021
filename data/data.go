@@ -102,6 +102,10 @@ func query(method string, config *Configuration) (*http.Response, error) {
 		return nil, err
 	}
 
+	req.Header = http.Header{
+		"User-Agent": []string{"Advent of code solver"},
+	}
+
 	req.AddCookie(&http.Cookie{
 		Name:  "session",
 		Value: config.SessionCookie,
