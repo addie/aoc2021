@@ -32,48 +32,44 @@ func (s *Solver) Solve() int {
 
 func part1(moves []string, boards [][][]string) int {
 	lastMove, winner := findBingoWinner(moves, boards)
-	sum := 0
-	for r := range winner {
-		for c := range winner[0] {
-			if winner[r][c] != "" {
-				val, _ := strconv.Atoi(winner[r][c])
-				sum += val
-			}
-		}
-	}
-	last, _ := strconv.Atoi(lastMove)
-	return sum * last
+	sum := sumRemainingTiles(winner)
+	return sum * lastMove
 }
 
 func part2(moves []string, boards [][][]string) int {
 	lastMove, loser := findBingoLoser(moves, boards)
+	sum := sumRemainingTiles(loser)
+	return sum * lastMove
+}
+
+func sumRemainingTiles(board [][]string) int {
 	sum := 0
-	for r := range loser {
-		for c := range loser[0] {
-			if loser[r][c] != "" {
-				val, _ := strconv.Atoi(loser[r][c])
+	for r := range board {
+		for c := range board[0] {
+			if board[r][c] != "" {
+				val, _ := strconv.Atoi(board[r][c])
 				sum += val
 			}
 		}
 	}
-	last, _ := strconv.Atoi(lastMove)
-	return sum * last
+	return sum
 }
 
-func findBingoWinner(moves []string, boards [][][]string) (string, [][]string) {
+func findBingoWinner(moves []string, boards [][][]string) (int, [][]string) {
 	for _, move := range moves {
 		for _, board := range boards {
 			mark(move, board)
 			if bingo(board) {
-				return move, board
+				lastMove, _ := strconv.Atoi(move)
+				return lastMove, board
 			}
 		}
 	}
 	log.Fatal("no winner")
-	return "", nil
+	return 0, nil
 }
 
-func findBingoLoser(moves []string, boards [][][]string) (string, [][]string) {
+func findBingoLoser(moves []string, boards [][][]string) (int, [][]string) {
 	winners := make(map[int]bool)
 	for _, move := range moves {
 		for i, board := range boards {
@@ -84,13 +80,14 @@ func findBingoLoser(moves []string, boards [][][]string) (string, [][]string) {
 			if bingo(board) {
 				winners[i] = true
 				if len(winners) == len(boards) {
-					return move, boards[i]
+					lastMove, _ := strconv.Atoi(move)
+					return lastMove, boards[i]
 				}
 			}
 		}
 	}
 	log.Fatal("no loser")
-	return "", nil
+	return 0, nil
 }
 
 func bingo(board [][]string) bool {
