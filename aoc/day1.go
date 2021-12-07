@@ -1,35 +1,17 @@
-package day1
+package aoc
 
 import (
-	"aoc2021/aoc"
 	"bufio"
 	"log"
 	"os"
 	"strconv"
 )
 
-type Solver struct {
-	aoc.Solver
-}
-
-func (s *Solver) Solve() int {
-	data, err := parseFile(s.FilePath)
+func P11() int {
+	data, err := get1()
 	if err != nil {
 		log.Fatal(err)
 	}
-
-	var res int
-	switch s.Part {
-	case 1:
-		res = part1(data)
-	case 2:
-		res = part2(data)
-	}
-
-	return res
-}
-
-func part1(data []int) int {
 	numIncreases := 0
 	for i := range data {
 		if i == 0 {
@@ -42,7 +24,11 @@ func part1(data []int) int {
 	return numIncreases
 }
 
-func part2(data []int) int {
+func P12() int {
+	data, err := get1()
+	if err != nil {
+		log.Fatal(err)
+	}
 	numIncreases := 0
 	var window []int
 	runningSum := 0
@@ -62,15 +48,14 @@ func part2(data []int) int {
 	return numIncreases
 }
 
-func parseFile(filePath string) ([]int, error) {
-	var res []int
-
-	file, err := os.Open(filePath)
+func get1() ([]int, error) {
+	file, err := os.Open("data/day1")
 	if err != nil {
 		return nil, err
 	}
 	defer file.Close()
 
+	var res []int
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
 		digit, err := strconv.Atoi(scanner.Text())

@@ -1,7 +1,6 @@
-package day5
+package aoc
 
 import (
-	"aoc2021/aoc"
 	"aoc2021/data/part"
 	"bufio"
 	"fmt"
@@ -10,10 +9,6 @@ import (
 	"strconv"
 	"strings"
 )
-
-type Solver struct {
-	aoc.Solver
-}
 
 type coord struct {
 	r, c int
@@ -31,36 +26,28 @@ const (
 	vertical
 )
 
-func (s *Solver) Solve() int {
-	coords, err := parseFile(s.FilePath)
+func P51() int {
+	data, err := get5()
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	var res int
-	switch s.Part {
-	case 1:
-		res = part1(coords)
-	case 2:
-		res = part2(coords)
-	}
-
-	return res
-}
-
-func part1(input []coordPair) int {
-	maxR, maxC := getBounds(input)
+	maxR, maxC := getBounds(data)
 	grid := createGrid(maxR, maxC)
-	for _, coordPair := range input {
+	for _, coordPair := range data {
 		plotLine(part.One, grid, coordPair)
 	}
 	return countIntersections(grid)
 }
 
-func part2(input []coordPair) int {
-	maxR, maxC := getBounds(input)
+func P52() int {
+	data, err := get5()
+	if err != nil {
+		log.Fatal(err)
+	}
+	maxR, maxC := getBounds(data)
 	grid := createGrid(maxR, maxC)
-	for _, coordPair := range input {
+	for _, coordPair := range data {
 		plotLine(part.Two, grid, coordPair)
 	}
 	return countIntersections(grid)
@@ -192,8 +179,8 @@ func getBounds(input []coordPair) (int, int) {
 	return maxR, maxC
 }
 
-func parseFile(filePath string) ([]coordPair, error) {
-	file, err := os.Open(filePath)
+func get5() ([]coordPair, error) {
+	file, err := os.Open("data/day5")
 	if err != nil {
 		return nil, err
 	}

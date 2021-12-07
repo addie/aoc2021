@@ -23,7 +23,7 @@ import (
 const (
 	Year     = 2021
 	URL      = "https://adventofcode.com/%d/day/%d"
-	Filename = "data/day_%d_%d_data"
+	Filename = "data/day%d"
 )
 
 type Configuration struct {

@@ -1,7 +1,6 @@
-package day7
+package aoc
 
 import (
-	"aoc2021/aoc"
 	"bufio"
 	"log"
 	"math"
@@ -10,32 +9,15 @@ import (
 	"strings"
 )
 
-type Solver struct {
-	aoc.Solver
-}
-
-func (s *Solver) Solve() int {
-	data, err := parseFile(s.FilePath)
+func P71() int {
+	data, err := get7()
 	if err != nil {
 		log.Fatal(err)
 	}
-
-	var res int
-	switch s.Part {
-	case 1:
-		res = part1(data)
-	case 2:
-		res = part2(data)
-	}
-
-	return res
-}
-
-func part1(input []int) int {
-	max := getMax(input)
+	max := getMax(data)
 	minCost := math.MaxInt
 	for i := 0; i <= max; i++ {
-		cost := calcCostSimple(input, i)
+		cost := calcCostSimple(data, i)
 		if cost < minCost {
 			minCost = cost
 		}
@@ -43,11 +25,15 @@ func part1(input []int) int {
 	return minCost
 }
 
-func part2(input []int) int {
-	max := getMax(input)
+func P72() int {
+	data, err := get7()
+	if err != nil {
+		log.Fatal(err)
+	}
+	max := getMax(data)
 	minCost := math.MaxInt
 	for i := 0; i <= max; i++ {
-		cost := calcCostComplex(input, i)
+		cost := calcCostComplex(data, i)
 		if cost < minCost {
 			minCost = cost
 		}
@@ -84,8 +70,8 @@ func getMax(input []int) int {
 	return max
 }
 
-func parseFile(filePath string) ([]int, error) {
-	file, err := os.Open(filePath)
+func get7() ([]int, error) {
+	file, err := os.Open("data/day7")
 	if err != nil {
 		return nil, err
 	}

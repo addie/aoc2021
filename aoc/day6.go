@@ -1,7 +1,6 @@
-package day6
+package aoc
 
 import (
-	"aoc2021/aoc"
 	"bufio"
 	"log"
 	"os"
@@ -9,35 +8,22 @@ import (
 	"strings"
 )
 
-type Solver struct {
-	aoc.Solver
-}
-
-func (s *Solver) Solve() int {
-	coords, err := parseFile(s.FilePath)
+func P61() int {
+	data, err := get6()
 	if err != nil {
 		log.Fatal(err)
 	}
-
-	var res int
-	switch s.Part {
-	case 1:
-		res = part1(coords)
-	case 2:
-		res = part2(coords)
-	}
-
-	return res
-}
-
-func part1(input []int) int {
 	const totalDays = 80
-	return lanternFishCount(totalDays, input)
+	return lanternFishCount(totalDays, data)
 }
 
-func part2(input []int) int {
+func P62() int {
+	data, err := get6()
+	if err != nil {
+		log.Fatal(err)
+	}
 	const totalDays = 256
-	return lanternFishCount(totalDays, input)
+	return lanternFishCount(totalDays, data)
 }
 
 func lanternFishCount(days int, input []int) int {
@@ -79,8 +65,8 @@ func counter(input []int) map[int]int {
 	return c
 }
 
-func parseFile(filePath string) ([]int, error) {
-	file, err := os.Open(filePath)
+func get6() ([]int, error) {
+	file, err := os.Open("data/day6")
 	if err != nil {
 		return nil, err
 	}

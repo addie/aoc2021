@@ -1,7 +1,6 @@
-package day3
+package aoc
 
 import (
-	"aoc2021/aoc"
 	"bufio"
 	"log"
 	"os"
@@ -13,28 +12,12 @@ const (
 	binLength    = 12
 )
 
-type Solver struct {
-	aoc.Solver
-}
-
-func (s *Solver) Solve() int {
-	data, err := parseFile(s.FilePath)
+func P31() int {
+	data, err := get3()
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	var res int
-	switch s.Part {
-	case 1:
-		res = part1(data)
-	case 2:
-		res = part2(data)
-	}
-
-	return res
-}
-
-func part1(data []string) int {
 	oneCount := make(map[int]int)
 	initCount(oneCount)
 	for _, dat := range data {
@@ -66,7 +49,11 @@ func part1(data []string) int {
 	return int(gamma) * int(epsilon)
 }
 
-func part2(data []string) int {
+func P32() int {
+	data, err := get3()
+	if err != nil {
+		log.Fatal(err)
+	}
 	oxygen := buildOxygenNum(data)
 	co2 := buildCO2Num(data)
 	return oxygen * co2
@@ -138,15 +125,14 @@ func initCount(count map[int]int) {
 	}
 }
 
-func parseFile(filePath string) ([]string, error) {
-	var res []string
-
-	file, err := os.Open(filePath)
+func get3() ([]string, error) {
+	file, err := os.Open("data/day3")
 	if err != nil {
 		return nil, err
 	}
 	defer file.Close()
 
+	var res []string
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
 		res = append(res, scanner.Text())

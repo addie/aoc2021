@@ -1,7 +1,6 @@
-package day2
+package aoc
 
 import (
-	"aoc2021/aoc"
 	"bufio"
 	"log"
 	"os"
@@ -9,32 +8,12 @@ import (
 	"strings"
 )
 
-type Solver struct {
-	aoc.Solver
-}
-
-func (s *Solver) Solve() int {
-	data, err := parseFile(s.FilePath)
+func P21() int {
+	data, err := get2()
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	var res int
-	switch s.Part {
-	case 1:
-		res = part1(data)
-	case 2:
-		res = part2(data)
-	}
-
-	return res
-}
-
-type pos struct {
-	horizontal, depth, aim int
-}
-
-func part1(data [][]string) int {
 	res := pos{}
 	for _, fullCmd := range data {
 		dir := fullCmd[0]
@@ -51,7 +30,11 @@ func part1(data [][]string) int {
 	return res.horizontal * res.depth
 }
 
-func part2(data [][]string) int {
+func P22() int {
+	data, err := get2()
+	if err != nil {
+		log.Fatal(err)
+	}
 	res := pos{}
 	for _, fullCmd := range data {
 		dir := fullCmd[0]
@@ -69,15 +52,18 @@ func part2(data [][]string) int {
 	return res.horizontal * res.depth
 }
 
-func parseFile(filePath string) ([][]string, error) {
-	var res [][]string
+type pos struct {
+	horizontal, depth, aim int
+}
 
-	file, err := os.Open(filePath)
+func get2() ([][]string, error) {
+	file, err := os.Open("data/day2")
 	if err != nil {
 		return nil, err
 	}
 	defer file.Close()
 
+	var res [][]string
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
 		fullCmd := strings.Split(scanner.Text(), " ")

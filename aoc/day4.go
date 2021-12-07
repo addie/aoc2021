@@ -1,7 +1,6 @@
-package day4
+package aoc
 
 import (
-	"aoc2021/aoc"
 	"bufio"
 	"log"
 	"os"
@@ -9,34 +8,22 @@ import (
 	"strings"
 )
 
-type Solver struct {
-	aoc.Solver
-}
-
-func (s *Solver) Solve() int {
-	moves, boards, err := parseFile(s.FilePath)
+func P41() int {
+	moves, boards, err := get4()
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	var res int
-	switch s.Part {
-	case 1:
-		res = part1(moves, boards)
-	case 2:
-		res = part2(moves, boards)
-	}
-
-	return res
-}
-
-func part1(moves []string, boards [][][]string) int {
 	lastMove, winner := findBingoWinner(moves, boards)
 	sum := sumRemainingTiles(winner)
 	return sum * lastMove
 }
 
-func part2(moves []string, boards [][][]string) int {
+func P42() int {
+	moves, boards, err := get4()
+	if err != nil {
+		log.Fatal(err)
+	}
 	lastMove, loser := findBingoLoser(moves, boards)
 	sum := sumRemainingTiles(loser)
 	return sum * lastMove
@@ -125,8 +112,8 @@ func mark(move string, board [][]string) {
 	}
 }
 
-func parseFile(filePath string) ([]string, [][][]string, error) {
-	file, err := os.Open(filePath)
+func get4() ([]string, [][][]string, error) {
+	file, err := os.Open("data/day4")
 	if err != nil {
 		return nil, nil, err
 	}
