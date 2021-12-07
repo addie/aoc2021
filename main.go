@@ -8,6 +8,7 @@ import (
 	"aoc2021/aoc/day4"
 	"aoc2021/aoc/day5"
 	"aoc2021/aoc/day6"
+	"aoc2021/aoc/day7"
 	"aoc2021/data"
 	"fmt"
 	"log"
@@ -95,6 +96,19 @@ func main() {
 	v.day, v.part = 6, 2
 	day6Solver = day6.Solver{Solver: aoc.Solver{Part: v.part, FilePath: getData(v.day)}}
 	res = day6Solver.Solve()
+	log.Printf("%d.%d Answer: %d\n", v.day, v.part, res)
+	// post(v.day, v.part, res)
+
+	// ============================================================
+	v.day, v.part = 7, 1
+	day7Solver := day7.Solver{Solver: aoc.Solver{Part: v.part, FilePath: getData(v.day)}}
+	res = day7Solver.Solve()
+	log.Printf("%d.%d Answer: %d\n", v.day, v.part, res)
+	// post(v.day, v.part, res)
+
+	v.day, v.part = 7, 2
+	day7Solver = day7.Solver{Solver: aoc.Solver{Part: v.part, FilePath: getData(v.day)}}
+	res = day7Solver.Solve()
 	log.Printf("%d.%d Answer: %d\n", v.day, v.part, res)
 	// post(v.day, v.part, res)
 }
