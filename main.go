@@ -58,6 +58,10 @@ func main() {
 		res = aoc.P81()
 	case "8.2":
 		res = aoc.P82()
+	case "9.1":
+		res = aoc.P91()
+	case "9.2":
+		res = aoc.P92()
 	}
 	fmt.Printf("Problem %d.%d - Answer %d\n", day, level, res)
 	clipboard.WriteAll(strconv.Itoa(res))
