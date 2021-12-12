@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-func P41() int {
+func Day4Part1() int {
 	moves, boards, err := get4()
 	if err != nil {
 		log.Fatal(err)
@@ -19,7 +19,7 @@ func P41() int {
 	return sum * lastMove
 }
 
-func P42() int {
+func Day4Part2() int {
 	moves, boards, err := get4()
 	if err != nil {
 		log.Fatal(err)

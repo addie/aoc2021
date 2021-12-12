@@ -7,7 +7,7 @@ import (
 	"strconv"
 )
 
-func P11() int {
+func Day1Part1() int {
 	data, err := get1()
 	if err != nil {
 		log.Fatal(err)
@@ -24,7 +24,7 @@ func P11() int {
 	return numIncreases
 }
 
-func P12() int {
+func Day1Part2() int {
 	data, err := get1()
 	if err != nil {
 		log.Fatal(err)

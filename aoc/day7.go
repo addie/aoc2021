@@ -9,7 +9,7 @@ import (
 	"strings"
 )
 
-func P71() int {
+func Day7Part1() int {
 	data, err := get7()
 	if err != nil {
 		log.Fatal(err)
@@ -25,7 +25,7 @@ func P71() int {
 	return minCost
 }
 
-func P72() int {
+func Day7Part2() int {
 	data, err := get7()
 	if err != nil {
 		log.Fatal(err)

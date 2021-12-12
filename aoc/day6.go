@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-func P61() int {
+func Day6Part1() int {
 	data, err := get6()
 	if err != nil {
 		log.Fatal(err)
@@ -17,7 +17,7 @@ func P61() int {
 	return lanternFishCount(totalDays, data)
 }
 
-func P62() int {
+func Day6Part2() int {
 	data, err := get6()
 	if err != nil {
 		log.Fatal(err)

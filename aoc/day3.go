@@ -12,7 +12,7 @@ const (
 	binLength    = 12
 )
 
-func P31() int {
+func Day3Part1() int {
 	data, err := get3()
 	if err != nil {
 		log.Fatal(err)
@@ -49,7 +49,7 @@ func P31() int {
 	return int(gamma) * int(epsilon)
 }
 
-func P32() int {
+func Day3Part2() int {
 	data, err := get3()
 	if err != nil {
 		log.Fatal(err)

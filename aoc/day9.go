@@ -7,7 +7,7 @@ import (
 	"strconv"
 )
 
-func P91() int {
+func Day9Part1() int {
 	file, _ := os.Open("data/day9")
 	defer file.Close()
 
@@ -49,7 +49,7 @@ func P91() int {
 	return sumOfRiskLevels
 }
 
-func P92() int {
+func Day9Part2() int {
 	file, _ := os.Open("data/day9")
 	defer file.Close()
 

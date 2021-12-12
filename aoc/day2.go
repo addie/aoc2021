@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-func P21() int {
+func Day2Part1() int {
 	data, err := get2()
 	if err != nil {
 		log.Fatal(err)
@@ -30,7 +30,7 @@ func P21() int {
 	return res.horizontal * res.depth
 }
 
-func P22() int {
+func Day2Part2() int {
 	data, err := get2()
 	if err != nil {
 		log.Fatal(err)

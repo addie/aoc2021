@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-func P81() int {
+func Day8Part1() int {
 	file, _ := os.Open("data/day8")
 	defer file.Close()
 
@@ -45,7 +45,7 @@ var letters = map[string]string{
 
 // beacf afbd bcead cgefa ecdbga efb gbfdeac ecgfbd acbdfe fb | bf efb bgecdfa egcfa
 
-func P82() int {
+func Day8Part2() int {
 	file, _ := os.Open("data/day8")
 	defer file.Close()
 

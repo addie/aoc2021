@@ -26,7 +26,7 @@ const (
 	vertical
 )
 
-func P51() int {
+func Day5Part1() int {
 	data, err := get5()
 	if err != nil {
 		log.Fatal(err)
@@ -40,7 +40,7 @@ func P51() int {
 	return countIntersections(grid)
 }
 
-func P52() int {
+func Day5Part2() int {
 	data, err := get5()
 	if err != nil {
 		log.Fatal(err)

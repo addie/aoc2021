@@ -27,41 +27,45 @@ func main() {
 	res := 0
 	switch problemSet {
 	case "1.1":
-		res = aoc.P11()
+		res = aoc.Day1Part1()
 	case "1.2":
-		res = aoc.P12()
+		res = aoc.Day1Part2()
 	case "2.1":
-		res = aoc.P21()
+		res = aoc.Day2Part1()
 	case "2.2":
-		res = aoc.P22()
+		res = aoc.Day2Part2()
 	case "3.1":
-		res = aoc.P31()
+		res = aoc.Day3Part1()
 	case "3.2":
-		res = aoc.P32()
+		res = aoc.Day3Part2()
 	case "4.1":
-		res = aoc.P41()
+		res = aoc.Day4Part1()
 	case "4.2":
-		res = aoc.P42()
+		res = aoc.Day4Part2()
 	case "5.1":
-		res = aoc.P51()
+		res = aoc.Day5Part1()
 	case "5.2":
-		res = aoc.P52()
+		res = aoc.Day5Part2()
 	case "6.1":
-		res = aoc.P61()
+		res = aoc.Day6Part1()
 	case "6.2":
-		res = aoc.P62()
+		res = aoc.Day6Part2()
 	case "7.1":
-		res = aoc.P71()
+		res = aoc.Day7Part1()
 	case "7.2":
-		res = aoc.P72()
+		res = aoc.Day7Part2()
 	case "8.1":
-		res = aoc.P81()
+		res = aoc.Day8Part1()
 	case "8.2":
-		res = aoc.P82()
+		res = aoc.Day8Part2()
 	case "9.1":
-		res = aoc.P91()
+		res = aoc.Day9Part1()
 	case "9.2":
-		res = aoc.P92()
+		res = aoc.Day9Part2()
+	case "10.1":
+		res = aoc.Day10Part1()
+	case "10.2":
+		res = aoc.Day10Part2()
 	}
 	fmt.Printf("Problem %d.%d - Answer %d\n", day, level, res)
 	clipboard.WriteAll(strconv.Itoa(res))
