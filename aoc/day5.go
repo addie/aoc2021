@@ -3,7 +3,6 @@ package aoc
 import (
 	"aoc2021/data/part"
 	"bufio"
-	"fmt"
 	"log"
 	"os"
 	"strconv"
@@ -63,23 +62,6 @@ func countIntersections(grid [][]int) int {
 		}
 	}
 	return numIntersections
-}
-
-func printGrid(grid [][]int) {
-	for r := range grid {
-		fmt.Print("[")
-		for c := range grid[r] {
-			if grid[c][r] == 0 {
-				fmt.Print(".")
-			} else {
-				fmt.Print(grid[c][r])
-			}
-			fmt.Print(" ")
-		}
-		fmt.Print("]")
-		fmt.Println()
-	}
-	fmt.Println()
 }
 
 func plotLine(p part.Part, grid [][]int, pair coordPair) {

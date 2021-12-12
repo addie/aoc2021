@@ -6,10 +6,10 @@ import (
 	"sort"
 )
 
-const filename = "data/day10"
+const day10Filename = "data/day10"
 
 func Day10Part1() int {
-	file, _ := os.Open(filename)
+	file, _ := os.Open(day10Filename)
 	defer file.Close()
 
 	scanner := bufio.NewScanner(file)
@@ -61,7 +61,7 @@ func inRune(col []rune, c rune) bool {
 }
 
 func Day10Part2() int {
-	file, _ := os.Open(filename)
+	file, _ := os.Open(day10Filename)
 	defer file.Close()
 
 	scanner := bufio.NewScanner(file)
