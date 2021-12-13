@@ -9,7 +9,7 @@ package aoc
 
 import "fmt"
 
-func printGrid(grid [][]int) {
+func printGridInt(grid [][]int) {
 	for r := range grid {
 		fmt.Print("[")
 		for c := range grid[r] {
@@ -31,6 +31,19 @@ func printGridBool(grid [][]bool) {
 			} else {
 				fmt.Print(grid[r][c])
 			}
+			fmt.Print(" ")
+		}
+		fmt.Print("]")
+		fmt.Println()
+	}
+	fmt.Println()
+}
+
+func printGridStr(grid [][]string) {
+	for r := range grid {
+		fmt.Print("[")
+		for c := range grid[r] {
+			fmt.Print(grid[r][c])
 			fmt.Print(" ")
 		}
 		fmt.Print("]")

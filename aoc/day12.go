@@ -60,7 +60,7 @@ func Day12Part2() int {
 
 	scanner := bufio.NewScanner(file)
 	graph := buildGraph(scanner)
-	
+
 	paths := 0
 	queue := []stateProblem12{{
 		current:      "start",
