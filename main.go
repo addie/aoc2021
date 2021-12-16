@@ -20,8 +20,6 @@ func main() {
 	problemSet := os.Args[1:][0]
 	dayStr := strings.Split(problemSet, ".")[0]
 	day, _ := strconv.Atoi(dayStr)
-	levelStr := strings.Split(problemSet, ".")[1]
-	level, _ := strconv.Atoi(levelStr)
 
 	saveData(day)
 	res := 0
@@ -76,8 +74,10 @@ func main() {
 		res = aoc.Day12Part2()
 	case "13", "13.1", "13.2":
 		res = aoc.Day13()
+	case "14", "14.1", "14.2":
+		res = aoc.Day14()
 	}
-	fmt.Printf("Problem %d.%d - Answer %d\n", day, level, res)
+	fmt.Printf("Answer %d\n", res)
 	clipboard.WriteAll(strconv.Itoa(res))
 	// post(day, level, res)
 }
